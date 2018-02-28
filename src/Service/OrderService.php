@@ -3,18 +3,25 @@
 namespace Mtt\OrderBundle\Service;
 
 
+use Doctrine\Common\Persistence\ObjectRepository;
 use Mtt\OrderBundle\Entity\OrderInterface;
 use Mtt\OrderBundle\Entity\OrderItemInterface;
+use Mtt\OrderBundle\Entity\OrderStatusInterface;
 
 class OrderService implements OrderServiceInterface
 {
     protected $orderEntity;
     protected $orderItemEntity;
+    protected $orderStatusRepository;
 
-    public function __construct(string $orderEntity, string $orderItemEntity)
+    public function __construct(
+        string $orderEntity,
+        string $orderItemEntity,
+        ObjectRepository $orderStatusRepository)
     {
         $this->orderEntity = $orderEntity;
         $this->orderItemEntity = $orderItemEntity;
+        $this->orderStatusRepository = $orderStatusRepository;
     }
 
     public function createOrder(): OrderInterface
@@ -34,6 +41,10 @@ class OrderService implements OrderServiceInterface
             $total += $orderItem->getPrice();
         }
         return $total;
+    }
+
+    public function getDefaultOrderStatus():?OrderStatusInterface{
+        return $this->orderStatusRepository->findDefault();
     }
 
 }

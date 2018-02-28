@@ -3,9 +3,7 @@ easy_admin:
         Order:
             class: '%mtt_order.order_entity_alias%'
             list:
-                fields: ['id', 'status', 'createdAt']
-            form:
-                fields: ['status', 'items']
+                fields: ['id', 'status', 'createdAt', 'telephone', 'customerFirstname']
 
         OrderStatus:
             class: '%mtt_order.order_status_entity_alias%'

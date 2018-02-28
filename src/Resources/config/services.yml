@@ -1,24 +1,20 @@
 parameters:
 
 services:
-   mtt_order.order.service:
-        class: Mtt\OrderBundle\Service\OrderService
-        arguments:
-            - '%mtt_order.order_entity_alias%'
-            - '%mtt_order.order_item_entity_alias%'
-        lazy: true
-
    mtt_order.order_type_repository:
         class: Doctrine\ORM\EntityRepository
         factory: ['@doctrine.orm.default_entity_manager', getRepository]
         arguments:
             - '%mtt_order.order_status_entity_alias%'
-        lazy: true
+
+   mtt_order.order.service:
+        class: Mtt\OrderBundle\Service\OrderService
+        arguments:
+            - '%mtt_order.order_entity_alias%'
+            - '%mtt_order.order_item_entity_alias%'
+            - '@mtt_order.order_type_repository'
 
    mtt_order.doctrine.order_listener:
         class: Mtt\OrderBundle\Listeners\Doctrine\OrderListener
-        arguments:
-            - '@mtt_order.order_type_repository'
         tags:
-            - { name: doctrine.orm.entity_listener }
-        lazy: true
+            - { name: doctrine.orm.entity_listener, lazy: true }

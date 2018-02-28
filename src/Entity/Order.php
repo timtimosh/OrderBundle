@@ -31,7 +31,7 @@ abstract class Order implements OrderInterface
      *     message = "The email '{{ value }}' is not a valid email.",
      *     checkMX = true
      * )
-     * @ORM\Column(type="string", length=30, nullable=true)
+     * @ORM\Column(type="string", length=60, nullable=true)
      */
     protected $email;
 
@@ -66,15 +66,16 @@ abstract class Order implements OrderInterface
     protected $updatedAt;
 
     /**
-     * @Assert\NotBlank(message="Set order status first. if there is no order status marked as default - create it and try again!")
-     * @ORM\ManyToOne(targetEntity="Mtt\OrderBundle\Entity\OrderStatusInterface", cascade={"persist"})
-     * @ORM\JoinColumn(referencedColumnName="id")
+     * @Assert\NotNull(message="Set order status first. if there is no order status marked as default - create it and try again!")
+     * @ORM\ManyToOne(targetEntity="Mtt\OrderBundle\Entity\OrderStatusInterface")
+     * @ORM\JoinColumn(referencedColumnName="id", nullable=false)
      */
     protected $status;
 
     /**
-     * @Assert\NotBlank(message="Attach some items to order first")
+     * @Assert\NotNull(message="Attach some items to order first")
      * @ORM\OneToMany(targetEntity="OrderItem", mappedBy="order", fetch="EXTRA_LAZY", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $items;
 

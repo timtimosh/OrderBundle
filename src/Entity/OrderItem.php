@@ -70,7 +70,9 @@ abstract class OrderItem implements OrderItemInterface
 
 
     /**
+     * @Assert\NotNull(message="Attach some items to order first")
      * @ORM\ManyToOne(targetEntity="Order", inversedBy="items", cascade={"remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
     protected $order;
 
